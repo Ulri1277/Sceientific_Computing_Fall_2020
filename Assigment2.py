@@ -1,24 +1,29 @@
-# Importing packages
+# The following code is written by Daniel Hjørtoft, Gagandeep Kumar & Ulrikke N. Andersen,
+# For the assignment, we have chosen to work with our own idea, based on the scientific challenge; Animal Kingdom,
+# which we worked on in week 45. We chose to take our own spin on the code, by making a tree simulation, simulating
+# tree growth on some landmass. The code itself borrows elements from “Animal Kingdom PyGame (A Solution)”,
+# given in lector 5. The idea was to make the trees to multiply, and thus spawning new trees with their unique ID.
+# And as a last function, the trees should be dependent on water source, like the real world.
 
+# Importing packages
 import numpy as np
 import pygame
 import random
-
 # making color codes for the different object and there stages
 
 # Tree
-ColorOfNewTree = (171, 235, 198)    # Light Green
-ColorOFYoungTree = (39, 174, 96)    # Green
+ColorOfNewTree = (171, 235, 198)  # Light Green
+ColorOFYoungTree = (39, 174, 96)  # Green
 ColorOfGrowingTree = (25, 111, 61)  # Dark Green
-ColorOfDyingTree = (165, 99, 99)    # Red-ish Brown
+ColorOfDyingTree = (165, 99, 99)  # Red-ish Brown
 
 # Water
-ColorOfWaterSource = (0, 249, 249)      # Cyan
-ColorOfWaterSourceAged = (40, 116, 166) # Dark Blue
+ColorOfWaterSource = (0, 249, 249)  # Cyan
+ColorOfWaterSourceAged = (40, 116, 166)  # Dark Blue
 
 # Color code for the grid and Empty spaces.
-ColorEmpty = (213, 196, 161)    # Kaki
-ColorGrid = (30, 30, 60)        # Blue-ish Black
+ColorEmpty = (213, 196, 161)  # Kaki
+ColorGrid = (30, 30, 60)  # Blue-ish Black
 
 # States the variables connected to the screens speed and efficiency.
 FramesPerSec = 60
@@ -28,7 +33,7 @@ Speed = 45
 ID = 0
 TreeReproductionAge = 5  # When the Tree is 5 runs old, it can reproduce.
 TreeOverGrowing = 3  # Indicated the amount of trees that can be alive near each other.
-TreeHydration= 10  # The Tree will die if it has no more water, this happens after 10 rounds.
+TreeHydration = 10  # The Tree will die if it has no more water, this happens after 10 rounds.
 WaterSourceAging = 2  # When the Water Source have been sustained for two rounds, a new Water Source is made.
 WaterDriesOut = 3  # If a Water Source is touching 3 other Water Sources, it dries out.
 
@@ -207,7 +212,6 @@ def RulesForWater(Current, Row, Column, WaterNeighbours, NeighboursEmpty):
 
     # If the length of the neighbour-Empty list is over zero. If this is true, a new Water Source is made:
     if Current[Row, Column]['Age'] >= WaterSourceAging and len(NeighboursEmpty) > 0:
-
         # Tree breeds to an Empty cell
         Row_new, Column_new = random.choice(NeighboursEmpty)
         Current[Row_new, Column_new] = NewSourceOfWater()
@@ -231,7 +235,7 @@ def RulesForWater(Current, Row, Column, WaterNeighbours, NeighboursEmpty):
 
 # defines a function there updates the cells in the grid and reshape the grid, are given tree inputs
 # as we uses it later on to draw our representation of the grid:
-def update_status(Surface, Current, Size):
+def update_status(Current):
     # For each cell
     for Row, Column in np.ndindex(Current.shape):
         # If there are a Tree in the cell it update the trees Age
@@ -297,7 +301,7 @@ def main(DimensionX, DimensionY, CellSize, Tree, WaterSource):
         # From our clock, we update the Cells, and update our visual representation (the shown grid).
         # The function makes sure, that we dont have any "rest (kommatal når vi dividere)" time.
         if SpeedCounter % Speed == 0:
-            Cells = update_status(Surface, Cells, CellSize)
+            Cells = update_status(Cells)
 
         DrawGrid(Surface, Cells, CellSize)
         pygame.display.update()

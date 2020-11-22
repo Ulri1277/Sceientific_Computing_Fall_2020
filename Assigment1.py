@@ -2,6 +2,9 @@
 # author: Maja H Kirkeby
 # Editor: Ulrikke Andersen
 
+# Simulation there represents a cannon shooting
+# a cannonball with a specific randomly chosen wind and a velocity there are changeable
+
 # import pygame and sys modules
 import random
 import sys
@@ -169,15 +172,12 @@ pygame.display.set_caption("My Pygame Skeleton")
 # update pygame's clock use the framerate
 clock = pygame.time.Clock()
 
-# game loop truth value
+# game loop variables initialized
 Running = True
 Turn = 0
 Shooting = False
 Round = 0
 Limit = 5
-
-
-
 
 # initialize the projectile's: color, pixel velocity and pixel position according to the current player
 (x, y) = Cal_Balls_Init_Position(Players[Turn])
@@ -196,11 +196,11 @@ while Running:
             if event.key == pygame.K_SPACE:
                 Shooting = True
 
+        # a if statement there checks if the limit of turns in our case 5 is reached and quit the game
         if Round == Limit:
             Running = False
 
-
-        if event.type == pygame.MOUSEBUTTONDOWN and Shooting == False:
+        if event.type == pygame.MOUSEBUTTONDOWN and Shooting is False:
             MousePosition = pygame.mouse.get_pos()
             (mx, my) = ConvertToReal(MousePosition[0], MousePosition[1], ScaleToScreen, Height)
 
